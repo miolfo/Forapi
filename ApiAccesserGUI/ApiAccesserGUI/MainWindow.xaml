@@ -7,7 +7,7 @@
         <TextBlock Name="requestUriText" Margin="19,55,433,240">Request URI:</TextBlock>
         <TextBox Name="baseUriInput" Margin="89,10,297,280" Height="30"></TextBox>
         <TextBox Name="requestUriInput" Margin="89,50,297,240" Height="30"></TextBox>
-        <TextBox Name="result" Margin="238,10,10,10" IsReadOnly="True"></TextBox>
+        <TextBox Name="result" Margin="238,10,10,10" IsReadOnly="True" TextWrapping="Wrap"></TextBox>
         <Button Name="accessApi" Margin="19,280,428,10" Click="GoClickedAsync">GO!</Button>
     </Grid>
 </Window>

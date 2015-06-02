@@ -22,7 +22,6 @@ namespace ApiAccesserGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        ApiAccess Forapi;
         const string PREVCALL_PATH = @".\lastCall.txt";
 
         public MainWindow()
@@ -43,21 +42,21 @@ namespace ApiAccesserGUI
             string baseUri = baseUriInput.Text;
             string requestUri = requestUriInput.Text;
 
-            Task<string> apiAccesTask;
-            string response = "";
-            Forapi = new ApiAccess(baseUri, requestUri);
+            Task<ForapiResponseObject> apiAccesTask;
+            ForapiResponseObject response;
             try
             {
-                apiAccesTask = Forapi.GetApiResponseAsync();
+                apiAccesTask = ApiAccess.GetApiResponseAsync(baseUri, requestUri);
                 response = await apiAccesTask;
                 //If successfull, save previous URI to a text file
                 GUIHelper.WriteToFile(PREVCALL_PATH, baseUri + "," + requestUri);
             }
             catch(Exception ex){
                 //TODO
+                response = new ForapiResponseObject();
             }
 
-            result.Text = response;
+            result.Text = response.Response;
         }
 
 

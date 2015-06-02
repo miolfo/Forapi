@@ -19,9 +19,8 @@ namespace ApiAccesser
         {
             string baseUri = "http://star-api.herokuapp.com/";
             string requestUri = "api/v1/stars/Sun";
-            ApiAccess asd = new ApiAccess(baseUri, requestUri);
-            string result = await asd.GetApiResponseAsync();
-            Console.WriteLine(result);
+            ForapiResponseObject result = await ApiAccess.GetApiResponseAsync(baseUri, requestUri);
+            Console.WriteLine(result.Response);
         }
     }
 }

@@ -10,78 +10,26 @@ using System.Net.Http.Headers;
 
 namespace ApiAccesser
 {
-    public class ApiAccess
+    public static class ApiAccess
     {
         /*PRIVATE VARIABLES*/
         private static HttpResponseMessage response;
-        private string baseUri;
-        private string requestUri;
-        private string responseString;
-
-        /*PUBLIC GETTERS AND SETTERS*/
-        public string BaseUri
-        {
-            get
-            {
-                return baseUri;
-            }
-            set
-            {
-                //TODO: parse valid url
-                baseUri = value;
-            }
-        }
-
-        public string RequestUri
-        {
-            get
-            {
-                return requestUri;
-            }
-            set
-            {
-                //TODO: parse valid url
-                requestUri = value;
-            }
-        }
-
-        public string ResponseString
-        {
-            get
-            {
-                return responseString;
-            }
-        }
-
-        public string HttpResponse
-        {
-            get
-            {
-                return response.ToString();
-            }
-        }
 
         /*PUBLIC METHODS*/
-        public ApiAccess(string baseURI, string requestURI)
-        {
-            baseUri = baseURI;
-            requestUri = requestURI;
-        }
 
         //Public method for accessing api
-        public async Task<string> GetApiResponseAsync()
+        public static async Task<ForapiResponseObject> GetApiResponseAsync(string baseURI, string requestURI)
         {
-            string parsedResponse = "";
-            string[] res = await ApiCallAsync();
-
-            return res[1];
+            ForapiResponseObject res = await ApiCallAsync(baseURI, requestURI);
+            return res;
         }
 
         
 
         /*PRIVATE METHODS*/
-        private async Task<string[]> ApiCallAsync()
+        private static async Task<ForapiResponseObject> ApiCallAsync(string baseUri, string requestUri)
         {
+            string responseString;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseUri);
@@ -90,11 +38,56 @@ namespace ApiAccesser
                 response = await client.GetAsync(requestUri);
                 responseString = await response.Content.ReadAsStringAsync();
             }
-            string[] responseArray = new string[] {response.ToString(), responseString };
-            return responseArray;
+            ForapiResponseObject res = new ForapiResponseObject(response.ToString(), responseString, true);
+            return res;
         }
 
 
+    }
+
+    public class ForapiResponseObject
+    {
+        /*PRIVATE VARIABLES*/
+        private string httpResponseContent;
+        private string response;
+        private bool success;
+
+        public ForapiResponseObject()
+        {
+            httpResponseContent = "";
+            response = "";
+            success = false;
+        }
+
+        public ForapiResponseObject(string httpResp, string resp, bool succ)
+        {
+            httpResponseContent = httpResp;
+            response = resp;
+            success = succ;
+        }
+
+        /*PUBLIC GETTERS AND SETTERS*/
+        public string HttpResponse
+        {
+            get
+            {
+                return httpResponseContent;
+            }
+        }
+        public string Response
+        {
+            get
+            {
+                return response;
+            }
+        }
+        public bool Success
+        {
+            get
+            {
+                return success;
+            }
+        }
     }
 
 }

@@ -30,7 +30,6 @@ namespace ApiAccesserGUI
                     WriteToFile(@".\err.txt", ex.GetType() + ", " + ex.Message);
                 return "";
             }
-           
         }
     }
 }

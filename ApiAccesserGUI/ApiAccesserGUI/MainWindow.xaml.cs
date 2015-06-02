@@ -44,16 +44,14 @@ namespace ApiAccesserGUI
 
             Task<ForapiResponseObject> apiAccesTask;
             ForapiResponseObject response;
-            try
-            {
-                apiAccesTask = ApiAccess.GetApiResponseAsync(baseUri, requestUri);
-                response = await apiAccesTask;
-                //If successfull, save previous URI to a text file
+            apiAccesTask = ApiAccess.GetApiResponseAsync(baseUri, requestUri);
+            response = await apiAccesTask;
+            //If successfull, save previous URI to a text file
+            if(response.Success)
                 GUIHelper.WriteToFile(PREVCALL_PATH, baseUri + "," + requestUri);
-            }
-            catch(Exception ex){
-                //TODO
-                response = new ForapiResponseObject();
+            else
+            {
+                MessageBox.Show(response.HttpResponse, "An error occurred while calling api");
             }
 
             result.Text = response.Response;

@@ -17,10 +17,10 @@ namespace ApiAccesser
         }
         public static async Task MainTask()
         {
-            string baseUri = "http://star-api.herokuapp.com/";
+            string baseUri = "http://star-api.hekuapp.com/";
             string requestUri = "api/v1/stars/Sun";
             ForapiResponseObject result = await ApiAccess.GetApiResponseAsync(baseUri, requestUri);
-            Console.WriteLine(result.Response);
+            //Console.WriteLine(result.Response);
         }
     }
 }

@@ -30,15 +30,24 @@ namespace ApiAccesser
         private static async Task<ForapiResponseObject> ApiCallAsync(string baseUri, string requestUri)
         {
             string responseString;
-            using (var client = new HttpClient())
+            ForapiResponseObject res;
+            try
             {
-                client.BaseAddress = new Uri(baseUri);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                response = await client.GetAsync(requestUri);
-                responseString = await response.Content.ReadAsStringAsync();
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUri);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    response = await client.GetAsync(requestUri);
+                    responseString = await response.Content.ReadAsStringAsync();
+                }
+                res = new ForapiResponseObject(response.ToString(), responseString, response.IsSuccessStatusCode);
             }
-            ForapiResponseObject res = new ForapiResponseObject(response.ToString(), responseString, true);
+            catch (Exception ex)
+            {
+                res = new ForapiResponseObject(ex.ToString(), "Error fetching data:", false);
+            }
+            
             return res;
         }
 

@@ -8,6 +8,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
+
 namespace ApiAccesser
 {
     public static class ApiAccess
@@ -72,6 +73,7 @@ namespace ApiAccesser
         {
             httpResponseContent = httpResp;
             response = resp;
+            response = ResponseParser.SimpleParse(response);
             success = succ;
         }
 

@@ -45,7 +45,7 @@ namespace ApiAccesser
             }
             catch (Exception ex)
             {
-                res = new ForapiResponseObject(ex.ToString(), "Error fetching data:", false);
+                res = new ForapiResponseObject(ex.ToString(), "Error fetching data", false);
             }
             
             return res;

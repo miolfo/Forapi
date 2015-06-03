@@ -55,6 +55,7 @@ namespace ApiAccesserGUI
             }
 
             result.Text = response.Response;
+            httpResponse.Text = response.HttpResponse;
         }
 
 
